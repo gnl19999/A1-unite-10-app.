@@ -76,13 +76,11 @@
             transform: translateX(-50%) scale(0.97);
         }
 
-        /* --- GÖRSEL STİLLERİ (BOYUTLAR KÜÇÜLTÜLDÜ) --- */
+        /* --- GÖRSEL STİLLERİ (GÜNCELLENEN KISIM) --- */
         .word-image-display {
             width: 100%;
-            /* Yükseklik 180px'ten 120px'e düşürüldü */
-            height: 120px; 
-            /* Marjinler 25px'ten 15px'e düşürüldü */
-            margin-top: 15px; 
+            height: **120px**; /* Yükseklik 180px'den 120px'e düşürüldü */
+            margin-top: 15px; /* Boşluklar azaltıldı */
             margin-bottom: 15px; 
             border-radius: 15px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
@@ -399,7 +397,7 @@
             
             const highlightedExample = example_en.replace(/\[(.*?)\]/g, (match, p1) => `<span class="highlight">${p1}</span>`);
             const synonymsText = synonyms || '-';
-            const safeImageUrl = image_url || 'https://via.placeholder.com/350x180?text=G%C3%B6rsel+Yok';
+            const safeImageUrl = image_url || 'https://via.placeholder.com/350x120?text=G%C3%B6rsel+Yok';
             
             const safeWordForAudio = escapeHtml(word);
 
