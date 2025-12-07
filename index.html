@@ -5,52 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kelime Kartları ve Quiz (Mobil Uyumlu)</title>
     <style>
-        /* --- GENEL SAYFA STİLLERİ (GÜNCELLENDİ) --- */
+        /* --- GENEL SAYFA STİLLERİ --- */
         body {
             background-color: #f0f2f5;
             display: flex;
             flex-direction: column;
             align-items: center;
-            /* Yalnızca dikeyde boşluk bıraktık */
             padding: 30px 10px; 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            /* Tam ekranı kaplamak için */
             min-height: 100vh; 
             margin: 0;
             justify-content: flex-start;
             user-select: none;
             overflow-x: hidden;
-            box-sizing: border-box; /* Padding'in genişliğe dahil olmasını sağlar */
+            box-sizing: border-box;
         }
 
-        /* --- KART KONTEYNERİ STİLLERİ (GÜNCELLENDİ) --- */
+        /* --- KART KONTEYNERİ STİLLERİ --- */
         #card-container {
             position: relative;
-            width: 90%; /* Genişliği %90 yaptık */
-            max-width: 450px; /* Daha büyük ekranlar için maksimum genişlik */
-            /* Sabit yüksekliği kaldırıp, içeriği merkezlemesi için biraz yükseklik verdik */
+            width: 90%; 
+            max-width: 450px; 
             min-height: 450px; 
             height: auto;
             display: flex;
             justify-content: center;
             align-items: flex-start;
             padding-top: 20px;
-            /* Flex-start yerine merkezledik */
             margin-bottom: 20px; 
         }
         
-        /* --- KART STİLLERİ (GÜNCELLENDİ) --- */
+        /* --- KART STİLLERİ --- */
         .card {
             background-color: white;
-            /* Genişliği konteynere göre %100 yaptık, max-width'i konteynerden alacak */
             width: 100%; 
             border-radius: 20px;
-            padding: 20px; /* Padding'i biraz azalttık */
+            padding: 20px; 
             box-shadow: 0 10px 30px rgba(0,0,0,0.15);
             position: absolute;
             top: 20px;
             left: 50%;
-            /* Mobil cihazlarda daha yumuşak bir başlangıç için */
             transform: translateX(-50%) translateY(10px) scale(0.98); 
             cursor: pointer;
             transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
@@ -58,7 +52,7 @@
                         opacity 0.3s ease;
             opacity: 0;
             z-index: 1;
-            box-sizing: border-box; /* Padding'in toplam genişliği etkilemesini önler */
+            box-sizing: border-box;
         }
 
         .card.active {
@@ -72,13 +66,11 @@
             pointer-events: none;
         }
         .card.animate-next {
-             /* Kartı sağa hareket ettirdik, mobil cihazlarda görünürlüğünü artırmak için daha az döndürdük */
             transform: translateX(-150%) scale(0.9) rotate(-3deg); 
             opacity: 0;
             z-index: 1;
         }
          .card.animate-prev {
-             /* Kartı sola hareket ettirdik */
             transform: translateX(50%) scale(0.9) rotate(3deg); 
             opacity: 0;
             z-index: 1;
@@ -88,12 +80,13 @@
             transform: translateX(-50%) scale(0.98);
         }
 
-        /* --- GÖRSEL STİLLERİ (AYNI) --- */
+        /* --- GÖRSEL STİLLERİ (GÜNCELLENEN KISIM) --- */
         .word-image-display {
             width: 100%;
-            height: 120px; 
+            /* Yüksekliği mobil uyum için 100px'e düşürdük */
+            height: **100px**; 
             margin-top: 15px; 
-            margin-bottom: 15px; 
+            margin-bottom: 15px;  
             border-radius: 15px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             background-color: #f7fafc;
@@ -108,7 +101,10 @@
         .word-image-display img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            /* Görüntünün kesilmeden tam sığması için 'contain' kullanıldı.
+               Eğer kutuyu doldurmasını isterseniz 'cover' olarak bırakabilirsiniz. 
+               'Contain' mobil cihazlarda daha güvenlidir. */
+            object-fit: **contain**; 
             border-radius: 15px;
             transition: transform 0.3s ease;
         }
@@ -120,7 +116,7 @@
         
         .speaker-icon-card {
             color: #1976D2;
-            font-size: 28px;
+            font-size: 24px;
             cursor: pointer;
             padding: 10px;
             border-radius: 50%;
@@ -130,8 +126,8 @@
         }
         .speaker-icon-card:hover { background: #E3F2FD; }
         
-        h1 { color: #2D3748; margin: 0; font-size: 30px; font-weight: 800; text-transform: capitalize; } /* Font boyutu biraz küçüldü */
-        .meaning { color: #718096; margin-top: 5px; margin-left: 58px; font-size: 16px; font-weight: 500;} /* Font boyutu biraz küçüldü */
+        h1 { color: #2D3748; margin: 0; font-size: 30px; font-weight: 800; text-transform: capitalize; } 
+        .meaning { color: #718096; margin-top: 5px; margin-left: 50px; font-size: 16px; font-weight: 500;} 
         
         .box {
             border: 1px solid #E2E8F0;
@@ -143,11 +139,11 @@
         .row { display: flex; gap: 10px; }
         .tag { font-weight: bold; color: #1976D2; font-size: 14px; min-width: 35px; }
         .content { flex: 1; }
-        .en-sentence { color: #2D3748; font-size: 15px; margin: 0 0 8px 0; line-height: 1.5; } /* Font boyutu biraz küçüldü */
+        .en-sentence { color: #2D3748; font-size: 15px; margin: 0 0 8px 0; line-height: 1.5; } 
         .highlight { color: #E53E3E; font-weight: bold; background: #fff5f5; padding: 0 4px; border-radius: 4px; }
         .divider { border-top: 1px dotted #CBD5E0; margin: 5px 0; }
-        .tr-sentence { color: #718096; font-size: 14px; margin: 5px 0 0 0; } /* Font boyutu biraz küçüldü */
-        .synonyms-text { color: #2D3748; margin: 0; font-size: 14px; } /* Font boyutu biraz küçüldü */
+        .tr-sentence { color: #718096; font-size: 14px; margin: 5px 0 0 0; } 
+        .synonyms-text { color: #2D3748; margin: 0; font-size: 14px; } 
         .box.small { padding: 12px 15px; border-radius: 30px; margin-bottom: 0;}
 
         .info-bar {
@@ -160,23 +156,22 @@
             gap: 10px;
         }
 
-        /* --- QUIZ VE POPUP STİLLERİ (GÜNCELLENDİ) --- */
+        /* --- QUIZ VE POPUP STİLLERİ --- */
         .overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.7); /* Opaklık artırıldı */
+            background-color: rgba(0, 0, 0, 0.7); 
             z-index: 999;
             display: none;
-            backdrop-filter: blur(5px); /* Bulanıklık artırıldı */
+            backdrop-filter: blur(5px); 
         }
         
         .quiz-container {
             display: none;
             padding: 25px;
-            /* Mobil cihazlarda daha geniş */
             width: 95%; 
             max-width: 450px;
             background-color: white;
@@ -187,18 +182,21 @@
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 1000;
-            /* Tam ekran yüksekliğine daha iyi uyum için */
             max-height: 95vh; 
             overflow-y: auto;
             transition: all 0.3s ease-in-out;
             box-sizing: border-box;
         }
 
-        .quiz-word-box {
-            font-size: 28px; /* Quiz kelime boyutu küçüldü */
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            font-weight: bold;
+            color: #718096;
         }
-
-        /* Diğer quiz stilleri (gerekli olanlar) */
+        
         .top-buttons {
             position: relative;
             z-index: 10;
@@ -212,7 +210,7 @@
             color: white;
             border: none;
             padding: 12px 25px;
-            font-size: 16px; /* Buton font boyutu küçüldü */
+            font-size: 16px; 
             cursor: pointer;
             border-radius: 50px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
@@ -220,14 +218,12 @@
         }
         .top-buttons button:hover { background-color: #1565C0; }
         
-        /* Diğer stil tanımları (değişmedi) */
-        .quiz-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            font-weight: bold;
-            color: #718096;
+        .quiz-word-box {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: #2D3748;
+            text-transform: capitalize;
         }
         .speaker-icon {
             font-size: 35px;
@@ -238,6 +234,7 @@
             transition: transform 0.1s;
         }
         .speaker-icon:hover { transform: scale(1.1); }
+
         .option-button {
             width: 100%; padding: 15px 20px; margin-bottom: 10px;
             border: 1px solid #E2E8F0;
@@ -249,8 +246,10 @@
         }
         .option-button:hover:not(.correct):not(.wrong):not([disabled]) { background-color: #EBF8FF; }
         .option-button[disabled] { cursor: default; }
+
         .correct { background-color: #48BB78 !important; color: white !important; border-color: #48BB78 !important; }
         .wrong { background-color: #F56565 !important; color: white !important; border-color: #F56565 !important; }
+        
         .check-mark {
             font-size: 24px;
             color: white;
@@ -262,12 +261,15 @@
             font-weight: bold;
         }
         .option-button.correct .check-mark, .option-button.wrong .check-mark { display: block; }
+        
         .progress-bar-container { height: 10px; background-color: #E2E8F0; border-radius: 5px; margin-bottom: 20px; overflow: hidden; }
         .progress-bar { height: 100%; width: 0%; background-color: #48BB78; transition: width 0.3s; }
+        
         .quiz-results { display: none; text-align: center; padding: 20px 0; }
         .quiz-results h2 { color: #48BB78; font-size: 26px; margin-bottom: 10px; }
         .quiz-results p { font-size: 16px; margin: 5px 0;}
         .quiz-results b { font-size: 20px; color: #1976D2;}
+        
         #restartQuizButton {
             background-color: #1976D2;
             color: white;
@@ -280,7 +282,7 @@
         }
         #restartQuizButton:hover { background-color: #1565C0; }
 
-        /* Mobil Cihazlar İçin Ekstra Düzenlemeler (isteğe bağlı ama faydalı) */
+        /* Mobil Cihazlar İçin Ekstra Düzenlemeler */
         @media (max-width: 500px) {
             h1 { font-size: 26px; }
             .speaker-icon-card { font-size: 24px; }
@@ -413,7 +415,7 @@
             
             const highlightedExample = example_en.replace(/\[(.*?)\]/g, (match, p1) => `<span class="highlight">${p1}</span>`);
             const synonymsText = synonyms || '-';
-            const safeImageUrl = image_url || 'https://via.placeholder.com/350x120?text=G%C3%B6rsel+Yok';
+            const safeImageUrl = image_url || 'https://via.placeholder.com/350x100?text=G%C3%B6rsel+Yok';
             
             const safeWordForAudio = escapeHtml(word);
 
@@ -443,7 +445,7 @@
                 <div class="word-image-display">
                     <img src="${safeImageUrl}"
                         alt="${word} görseli"
-                        onerror="this.onerror=null; this.src='https://via.placeholder.com/350x120?text=G%C3%B6rsel+Bulunamad%C4%B1';">
+                        onerror="this.onerror=null; this.src='https://via.placeholder.com/350x100?text=G%C3%B6rsel+Bulunamad%C4%B1';">
                 </div>
 
                 <div class="box">
