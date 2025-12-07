@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kelime Kartları ve Quiz (Düzeltildi)</title>
+    <title>Kelime Kartları ve Quiz (Görsel Altta)</title>
     <style>
         /* --- GENEL SAYFA STİLLERİ --- */
         body {
@@ -20,16 +20,16 @@
             overflow-x: hidden;
         }
 
-        /* --- KART KONTEYNERİ STİLLERİ (Kartları doğru ortalamak için) --- */
+        /* --- KART KONTEYNERİ STİLLERİ --- */
         #card-container {
             position: relative;
             width: 100%;
             max-width: 400px;
-            height: 600px; /* Kart Yüksekliği */
+            height: 600px;
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            padding-top: 20px; /* Kartları konteyner içinde biraz aşağı itmek için */
+            padding-top: 20px;
         }
         
         /* --- KART STİLLERİ --- */
@@ -39,13 +39,10 @@
             border-radius: 20px;
             padding: 25px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            /* KRİTİK DÜZELTME: Kartı ortalamak için `position: absolute` yerine,
-               konteynerin ortalamasına güveniyoruz. Kartları üst üste bindirmek için `position: absolute` tutulmalı */
             position: absolute;
-            top: 20px; /* Kart konteynerinin üstünden başla */
+            top: 20px;
             left: 50%;
-            transform: translateX(-50%) translateY(15px) scale(0.95); /* Başlangıç pozisyonu */
-            /* ------------------------------------------- */
+            transform: translateX(-50%) translateY(15px) scale(0.95);
             cursor: pointer;
             transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
                         box-shadow 0.2s ease,
@@ -57,7 +54,7 @@
         .card.active {
             opacity: 1;
             transform: translateX(-50%) translateY(0) scale(1);
-            z-index: 2; /* Aktif kartı öne getir */
+            z-index: 2;
         }
         
         .card.animate-out {
@@ -65,12 +62,12 @@
              pointer-events: none;
         }
         .card.animate-next {
-            transform: translateX(-170%) scale(0.9) rotate(-5deg); /* Ekran dışına kaydır */
+            transform: translateX(-170%) scale(0.9) rotate(-5deg);
             opacity: 0;
             z-index: 1;
         }
          .card.animate-prev {
-            transform: translateX(70%) scale(0.9) rotate(5deg); /* Ekran dışına kaydır */
+            transform: translateX(70%) scale(0.9) rotate(5deg);
             opacity: 0;
             z-index: 1;
         }
@@ -79,11 +76,12 @@
             transform: translateX(-50%) scale(0.97);
         }
 
-        /* Diğer kart stilleri (Değiştirilmedi) */
+        /* --- GÖRSEL STİLLERİ --- */
         .word-image-display {
             width: 100%;
             height: 180px;
-            margin-bottom: 25px;
+            margin-top: 25px; /* Üste değil, alta boşluk eklendi */
+            margin-bottom: 25px; 
             border-radius: 15px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             background-color: #f7fafc;
@@ -317,7 +315,7 @@
     </div>
 
     <script>
-        // --- VERİ SETİ ---
+        // --- VERİ SETİ (AYNI) ---
         const wordList = [
             { word: "customer", meaning: "müşteri", example_en: "The [customer] is always right.", example_tr: "Müşteri her zaman haklıdır.", synonyms: "client, buyer, purchaser", image_url: "https://img.freepik.com/premium-vektor/supermarket-kasasinda-market-sepeti-olan-kasiyer-ve-musteri-konsepti-cizimi_338371-244.jpg" },
             { word: "cut", meaning: "kesmek", example_en: "Be careful not to [cut] your finger.", example_tr: "Parmağını kesmemeye dikkat et.", synonyms: "chop, slice, trim", image_url: "https://png.pngtree.com/png-vector/20251028/ourmid/pngtree-3d-cut-icon-with-scissors-png-image_17840910.webp" },
@@ -366,19 +364,16 @@
         let quizDataShuffled = [];
         let currentQuestionIndexQuiz = 0;
         let scoreQuiz = 0;
-        // KRİTİK DÜZELTME: allTranslations, her kelime listeye eklendiğinde güncellemek için fonksiyon içinde tanımlandı
         let allTranslations = [];
 
         // --- YARDIMCI FONKSİYONLAR ---
 
-        // HTML içinde güvenli string kullanımı için
         function escapeHtml(text) {
             return text
                 .replace(/'/g, "&apos;")
                 .replace(/"/g, "&quot;");
         }
 
-        // Seslendirme
         const speakWord = (text) => {
             if ('speechSynthesis' in window) {
                 window.speechSynthesis.cancel();
@@ -394,12 +389,11 @@
             speakWord(text);
         };
 
-        // Bilgi Çubuğu
         function updateInfoBar() {
             infoText.textContent = `Kart ${currentIndex + 1} / ${wordList.length}`;
         }
 
-        // KART OLUŞTURMA
+        // KART OLUŞTURMA (GÖRSEL KONUMU DEĞİŞTİRİLDİ)
         const createCard = (data) => {
             const { word, meaning, example_en, example_tr, synonyms, image_url } = data;
             
@@ -409,10 +403,8 @@
             
             const safeWordForAudio = escapeHtml(word);
 
-            // Önceki kartı bul ve kaldır (Varsa)
             const previousCard = document.getElementById('active-card');
             if(previousCard) {
-                // Animasyon tamamlandıktan sonra kaldır
                 previousCard.addEventListener('transitionend', function(e) {
                     if (e.propertyName === 'opacity' && previousCard.classList.contains('animate-out')) {
                         previousCard.remove();
@@ -420,20 +412,13 @@
                 }, { once: true });
             }
 
-
-            // Yeni kart oluşturma
             const newCard = document.createElement('div');
             newCard.classList.add('card');
             newCard.setAttribute('id', 'active-card');
             newCard.setAttribute('onclick', 'nextCard(event)');
 
+            // İÇERİK YAPISI DEĞİŞİKLİĞİ: GÖRSEL BURADAN KALDIRILDI VE AŞAĞIYA EKLENDİ
             newCard.innerHTML = `
-                <div class="word-image-display">
-                    <img src="${safeImageUrl}"
-                        alt="${word} görseli"
-                        onerror="this.onerror=null; this.src='https://via.placeholder.com/350x180?text=G%C3%B6rsel+Bulunamad%C4%B1';">
-                </div>
-
                 <div class="header">
                     <div class="word-row">
                         <span class="speaker-icon-card" title="Dinle" onclick="event.stopPropagation(); speakWord('${safeWordForAudio}')">🔊</span>
@@ -441,7 +426,12 @@
                     </div>
                     <p class="meaning">${meaning}</p>
                 </div>
-
+                
+                <div class="word-image-display">
+                    <img src="${safeImageUrl}"
+                        alt="${word} görseli"
+                        onerror="this.onerror=null; this.src='https://via.placeholder.com/350x180?text=G%C3%B6rsel+Bulunamad%C4%B1';">
+                </div>
                 <div class="box">
                     <div class="row">
                         <span class="tag">Ör.</span>
@@ -463,9 +453,8 @@
                 </div>
             `;
             
-            container.appendChild(newCard); // Yeni kartı ekle
+            container.appendChild(newCard);
             
-            // Kartın görünmesini sağlamak için kısa bir gecikme
             setTimeout(() => {
                 newCard.classList.add('active');
             }, 50);
@@ -473,9 +462,9 @@
             updateInfoBar();
         };
         
+        // --- GERİ KALAN MANTIK (AYNI) ---
         let isAnimating = false;
 
-        // Kart Geçiş Mantığı
         const transitionCard = (direction) => {
             if (quizContainer.style.display === 'block' || isAnimating) return;
             isAnimating = true;
@@ -486,10 +475,8 @@
                 currentCard.classList.add('animate-out');
                 
                 if (direction === 'next') {
-                    // İLERİ: Giden kart sola kayıp dışarı çıkar
                     currentCard.classList.add('animate-next');
                 } else {
-                    // GERİ: Giden kart sağa kayıp dışarı çıkar
                     currentCard.classList.add('animate-prev');
                 }
                 
@@ -502,10 +489,9 @@
                         currentIndex = (currentIndex - 1 + wordList.length) % wordList.length;
                     }
                     createCard(wordList[currentIndex]);
-                    isAnimating = false; // Animasyon bitti
-                }, 300); // CSS transition süresiyle (0.3s) eşleşmeli
+                    isAnimating = false;
+                }, 300);
             } else {
-                // Eğer kart yoksa, sadece yeniden oluştur
                 currentIndex = (direction === 'next') ? 
                     (currentIndex + 1) % wordList.length : 
                     (currentIndex - 1 + wordList.length) % wordList.length;
@@ -525,12 +511,10 @@
             transitionCard('prev');
         };
 
-        // --- GLOBAL ATAMALAR (HTML onclick erişimi için) ---
         window.nextCard = nextCard;
         window.speakWord = speakWord;
         window.speakQuizWord = speakQuizWord;
 
-        // Klavye Kontrolleri
         document.addEventListener('keydown', (e) => {
             if (quizContainer.style.display === 'block') return;
             
@@ -546,8 +530,6 @@
             }
         });
 
-        // --- QUIZ MANTIK FONKSİYONLARI ---
-
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -557,7 +539,6 @@
         }
 
         function generateWordOptions(correctWord, correctMeaning) {
-            // KRİTİK DÜZELTME: allTranslations'ı burada kullanıyoruz
             const incorrectOptions = allTranslations.filter(t => t !== correctMeaning);
             let chosenIncorrect = shuffleArray(incorrectOptions).slice(0, 3);
             let options = [...chosenIncorrect, correctMeaning];
@@ -610,11 +591,10 @@
                 selectedButton.classList.add('wrong');
                 const correctButton = Array.from(optionsContainer.children).find(btn => btn.getAttribute('data-answer') === correctAnswer);
                 if (correctButton) {
-                    // KRİTİK DÜZELTME: Yanlış cevap verildiğinde doğru seçeneğin de işaretlenmesini sağlar
                     setTimeout(() => {
                         correctButton.classList.add('correct');
                         correctButton.querySelector('.check-mark').textContent = '✓';
-                    }, 500); // Doğru cevabı göstermek için kısa bir gecikme
+                    }, 500);
                 }
             }
             
@@ -639,18 +619,15 @@
         }
 
         function restartWordQuiz() {
-            // KRİTİK DÜZELTME: allTranslations'ı quiz'e başlamadan önce güncelle
             allTranslations = [...new Set(wordList.map(q => q.meaning))];
             
             currentQuestionIndexQuiz = 0;
             scoreQuiz = 0;
-            // Yeterli seçenek olması için kelime listesinin tamamını karıştır
             quizDataShuffled = shuffleArray([...wordList]); 
             
             displayWordQuestion();
         }
         
-        // --- QUIZ BUTTON İŞLEMLERİ ---
         const closeQuiz = () => {
             quizContainer.style.display = 'none';
             quizOverlay.style.display = 'none';
@@ -666,17 +643,15 @@
             toggleQuizButton.style.display = 'none';
             const activeCard = document.getElementById('active-card');
             if (activeCard) activeCard.style.pointerEvents = 'none';
-            restartWordQuiz(); // Quiz'i başlatmadan önce sıfırla ve hazırla
+            restartWordQuiz();
         });
         
         quizBackButton.addEventListener('click', closeQuiz);
         quizOverlay.addEventListener('click', closeQuiz);
         restartQuizButton.addEventListener('click', restartWordQuiz);
 
-        // BAŞLAT
         document.addEventListener('DOMContentLoaded', function() {
             if (wordList.length > 0) {
-                // Kartları konteyner içinde ortalamak için CSS düzeltmeleri yapıldı
                 createCard(wordList[currentIndex]);
             } else {
                 container.innerHTML = '<h2>Liste boş.</h2>';
