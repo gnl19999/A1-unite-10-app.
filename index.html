@@ -18,14 +18,14 @@
             justify-content: flex-start;
             user-select: none;
             overflow-x: hidden;
-            box-sizing: border-box;
+            box-sizing: border-box; 
         }
 
         /* --- KART KONTEYNERİ STİLLERİ --- */
         #card-container {
             position: relative;
             width: 90%; 
-            max-width: 450px; 
+            max-width: 450px;
             min-height: 450px; 
             height: auto;
             display: flex;
@@ -80,13 +80,12 @@
             transform: translateX(-50%) scale(0.98);
         }
 
-        /* --- GÖRSEL STİLLERİ (GÜNCELLENEN KISIM) --- */
+        /* --- GÖRSEL STİLLERİ (GÜNCELLENDİ) --- */
         .word-image-display {
             width: 100%;
-            /* Yüksekliği mobil uyum için 100px'e düşürdük */
-            height: **100px**; 
+            height: 120px; 
             margin-top: 15px; 
-            margin-bottom: 15px;  
+            margin-bottom: 15px; 
             border-radius: 15px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             background-color: #f7fafc;
@@ -101,10 +100,8 @@
         .word-image-display img {
             width: 100%;
             height: 100%;
-            /* Görüntünün kesilmeden tam sığması için 'contain' kullanıldı.
-               Eğer kutuyu doldurmasını isterseniz 'cover' olarak bırakabilirsiniz. 
-               'Contain' mobil cihazlarda daha güvenlidir. */
-            object-fit: **contain**; 
+            /* GÖRSEL DÜZENLEME BURADA: Görselin alandan taşmasını önlerken alanı tam kaplamasını sağlar. */
+            object-fit: cover; 
             border-radius: 15px;
             transition: transform 0.3s ease;
         }
@@ -116,7 +113,7 @@
         
         .speaker-icon-card {
             color: #1976D2;
-            font-size: 24px;
+            font-size: 28px;
             cursor: pointer;
             padding: 10px;
             border-radius: 50%;
@@ -126,8 +123,8 @@
         }
         .speaker-icon-card:hover { background: #E3F2FD; }
         
-        h1 { color: #2D3748; margin: 0; font-size: 30px; font-weight: 800; text-transform: capitalize; } 
-        .meaning { color: #718096; margin-top: 5px; margin-left: 50px; font-size: 16px; font-weight: 500;} 
+        h1 { color: #2D3748; margin: 0; font-size: 30px; font-weight: 800; text-transform: capitalize; }
+        .meaning { color: #718096; margin-top: 5px; margin-left: 58px; font-size: 16px; font-weight: 500;}
         
         .box {
             border: 1px solid #E2E8F0;
@@ -188,6 +185,10 @@
             box-sizing: border-box;
         }
 
+        .quiz-word-box {
+            font-size: 28px; 
+        }
+        
         .quiz-header {
             display: flex;
             justify-content: space-between;
@@ -218,13 +219,6 @@
         }
         .top-buttons button:hover { background-color: #1565C0; }
         
-        .quiz-word-box {
-            font-size: 28px;
-            font-weight: 800;
-            margin-bottom: 10px;
-            color: #2D3748;
-            text-transform: capitalize;
-        }
         .speaker-icon {
             font-size: 35px;
             color: #f7b731;
@@ -290,7 +284,6 @@
             .en-sentence, .tr-sentence, .synonyms-text { font-size: 14px; }
             .option-button { font-size: 16px; padding: 12px 15px; }
         }
-
     </style>
 </head>
 <body>
@@ -415,7 +408,7 @@
             
             const highlightedExample = example_en.replace(/\[(.*?)\]/g, (match, p1) => `<span class="highlight">${p1}</span>`);
             const synonymsText = synonyms || '-';
-            const safeImageUrl = image_url || 'https://via.placeholder.com/350x100?text=G%C3%B6rsel+Yok';
+            const safeImageUrl = image_url || 'https://via.placeholder.com/350x120?text=G%C3%B6rsel+Yok';
             
             const safeWordForAudio = escapeHtml(word);
 
@@ -445,7 +438,7 @@
                 <div class="word-image-display">
                     <img src="${safeImageUrl}"
                         alt="${word} görseli"
-                        onerror="this.onerror=null; this.src='https://via.placeholder.com/350x100?text=G%C3%B6rsel+Bulunamad%C4%B1';">
+                        onerror="this.onerror=null; this.src='https://via.placeholder.com/350x120?text=G%C3%B6rsel+Bulunamad%C4%B1';">
                 </div>
 
                 <div class="box">
