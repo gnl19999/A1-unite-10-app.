@@ -85,10 +85,10 @@
             width: 100%;
             height: 120px; 
             margin-top: 15px; 
-            margin-bottom: 15px; 
+            margin-bottom: 15px; 
             border-radius: 15px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            background-color: #f7fafc;
+            background-color: #f7fafc; /* Resim sığmadığında kalan boşluk rengi */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -100,8 +100,8 @@
         .word-image-display img {
             width: 100%;
             height: 100%;
-            /* GÖRSEL DÜZENLEME BURADA: Görselin alandan taşmasını önlerken alanı tam kaplamasını sağlar. */
-            object-fit: cover; 
+            /* GÖRSEL DÜZENLEME BURADA YAPILDI: object-fit: contain görseli kırpmadan sığdırır. */
+            object-fit: contain; 
             border-radius: 15px;
             transition: transform 0.3s ease;
         }
@@ -436,8 +436,8 @@
                 </div>
                 
                 <div class="word-image-display">
-                    <img src="${safeImageUrl}"
-                        alt="${word} görseli"
+                    <img src="${safeImageUrl}" 
+                        alt="${word} görseli" 
                         onerror="this.onerror=null; this.src='https://via.placeholder.com/350x120?text=G%C3%B6rsel+Bulunamad%C4%B1';">
                 </div>
 
@@ -632,7 +632,7 @@
             
             currentQuestionIndexQuiz = 0;
             scoreQuiz = 0;
-            quizDataShuffled = shuffleArray([...wordList]);    
+            quizDataShuffled = shuffleArray([...wordList]);     
             
             displayWordQuestion();
         }
